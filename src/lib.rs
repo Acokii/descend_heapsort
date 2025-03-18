@@ -24,40 +24,40 @@ pub mod heap {
         }
     }
 
-    pub fn maxHeapify(heap: &mut Heap, i: usize) {
+    pub fn minHeapify(heap: &mut Heap, i: usize) {
         let l = left(i);
         let r = right(i);
         let mut largest: usize ;
 
-        if l < heap.size && heap.arr[l] > heap.arr[i] {
+        if l < heap.size && heap.arr[l] < heap.arr[i] {
             largest = l;
         }else {
             largest = i;
         }
 
-        if r < heap.size && heap.arr[r] > heap.arr[largest] {
+        if r < heap.size && heap.arr[r] < heap.arr[largest] {
             largest = r;
         }
 
         if largest != i {
             heap.arr.swap(i, largest); // Langsung pakai swap bawaan Rust
-            maxHeapify(heap, largest);
+            minHeapify(heap, largest);
         }
     }
 
-    pub fn build_maxheap(heap: &mut Heap){
+    pub fn build_minheap(heap: &mut Heap){
         let length = heap.arr.len()/2;
         for i in (0..length).rev()  {
-            maxHeapify(heap, i);
+            minHeapify(heap, i);
         }
     }
 
     pub fn heap_sort(heap: &mut Heap){
-        build_maxheap(heap);
+        build_minheap(heap);
         for a in (1..heap.arr.len()).rev() {
             heap.arr.swap(0, a);
             heap.size -= 1;
-            maxHeapify(heap, 0);
+            minHeapify(heap, 0);
         }
     }
 }
